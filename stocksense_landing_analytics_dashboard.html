@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockSense | AI-Powered Market Intelligence by 1CodeVerse</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+            },
+            dark: {
+              950: '#080c14',
+              900: '#0f172a',
+              850: '#131d33',
+              800: '#1e293b',
+              700: '#334155'
+            }
+          },
+          animation: {
+            'marquee': 'marquee 35s linear infinite',
+            'pulse-subtle': 'pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.6 },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbar and glass effects */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #080c14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card-hover:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+      transform: translateY(-2px);
+    }
+    .neon-glow {
+      box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.25);
+    }
+    .gradient-radial {
+      background: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.12) 0%, rgba(8, 12, 20, 0) 70%);
+    }
+  </style>
+</head>
+
+<body class="bg-dark-950 text-slate-100 font-sans selection:bg-brand-500 selection:text-white antialiased overflow-x-hidden min-h-screen flex flex-col justify-between">
+
+  <!-- Top Ticker Tape Stream -->
+  <div class="w-full bg-dark-900/90 border-b border-white/5 py-2 overflow-hidden select-none text-xs font-mono backdrop-blur-md sticky top-0 z-50">
+    <div class="flex whitespace-nowrap animate-marquee" id="ticker-container">
+      <!-- Duplicate entries for infinite continuous marquee -->
+      <div class="flex items-center space-x-8 px-4 text-slate-300">
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">NVDA</strong> $128.45 <span class="text-brand-400 flex items-center">▲ +3.42%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">AAPL</strong> $224.23 <span class="text-brand-400 flex items-center">▲ +1.15%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">TSLA</strong> $242.10 <span class="text-rose-400 flex items-center">▼ -1.82%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">MSFT</strong> $448.90 <span class="text-brand-400 flex items-center">▲ +0.87%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">BTC/USD</strong> $64,820 <span class="text-brand-400 flex items-center">▲ +4.21%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">AMZN</strong> $186.50 <span class="text-rose-400 flex items-center">▼ -0.32%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">GOOGL</strong> $179.35 <span class="text-brand-400 flex items-center">▲ +1.64%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">SPY</strong> $562.15 <span class="text-brand-400 flex items-center">▲ +0.65%</span></span>
+      </div>
+      <div class="flex items-center space-x-8 px-4 text-slate-300" aria-hidden="true">
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">NVDA</strong> $128.45 <span class="text-brand-400 flex items-center">▲ +3.42%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">AAPL</strong> $224.23 <span class="text-brand-400 flex items-center">▲ +1.15%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">TSLA</strong> $242.10 <span class="text-rose-400 flex items-center">▼ -1.82%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">MSFT</strong> $448.90 <span class="text-brand-400 flex items-center">▲ +0.87%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">BTC/USD</strong> $64,820 <span class="text-brand-400 flex items-center">▲ +4.21%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">AMZN</strong> $186.50 <span class="text-rose-400 flex items-center">▼ -0.32%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">GOOGL</strong> $179.35 <span class="text-brand-400 flex items-center">▲ +1.64%</span></span>
+        <span class="inline-flex items-center gap-1.5"><strong class="text-white">SPY</strong> $562.15 <span class="text-brand-400 flex items-center">▲ +0.65%</span></span>
+      </div>
+    </div>
+  </div>
+
+  <header class="w-full border-b border-white/5 bg-dark-950/80 backdrop-blur-xl sticky top-[33px] z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+          <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">StockSense</span>
+            <span class="text-[10px] uppercase tracking-wider font-mono px-1.5 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/30 font-semibold">v2.4 AI</span>
+          </div>
+          <p class="text-[11px] text-slate-400 -mt-0.5">by 1CodeVerse</p>
+        </div>
+      </a>
+
+      <!-- Market Status Pill -->
+      <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 -ml-4"></span>
+        <span class="text-emerald-300 font-medium font-mono text-[11px]">US MARKETS OPEN • LIVE FEED</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-300">
+        <a href="#analyzer" class="hover:text-brand-400 transition-colors">Terminal</a>
+        <a href="#features" class="hover:text-brand-400 transition-colors">Features</a>
+        <a href="#sentiment" class="hover:text-brand-400 transition-colors">Sentiment Engine</a>
+        <a href="#pricing" class="hover:text-brand-400 transition-colors">Pricing</a>
+        <a href="https://github.com/1CodeVerse" target="_blank" rel="noreferrer" class="hover:text-white transition-colors flex items-center gap-1.5">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span>Repo</span>
+        </a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-3">
+        <button onclick="scrollToAnalyzer()" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-200 hover:text-white transition-colors">
+          Sign In
+        </button>
+        <button onclick="scrollToAnalyzer()" class="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold rounded-xl bg-gradient-to-r from-brand-500 to-emerald-600 hover:from-brand-400 hover:to-emerald-500 text-dark-950 font-mono tracking-tight shadow-md hover:shadow-brand-500/25 transition-all transform active:scale-95">
+          <span>Launch App</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" class="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Flyout -->
+    <div id="mobileMenu" class="hidden lg:hidden border-b border-white/10 bg-dark-900/95 px-6 py-4 space-y-3 font-medium text-slate-300">
+      <a href="#analyzer" class="block hover:text-brand-400 py-1" onclick="toggleMenu()">Terminal Dashboard</a>
+      <a href="#features" class="block hover:text-brand-400 py-1" onclick="toggleMenu()">Features & Algorithms</a>
+      <a href="#sentiment" class="block hover:text-brand-400 py-1" onclick="toggleMenu()">Sentiment Engine</a>
+      <a href="#pricing" class="block hover:text-brand-400 py-1" onclick="toggleMenu()">Pricing Plans</a>
+      <a href="https://github.com/1CodeVerse" target="_blank" class="flex items-center gap-2 text-brand-400 py-1">
+        <i data-lucide="github" class="w-4 h-4"></i> 1CodeVerse GitHub
+      </a>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden gradient-radial">
+      <!-- Glow background spheres -->
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-brand-500/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <!-- Notification Pill -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/60 shadow-inner mb-6 text-xs text-slate-300 animate-pulse-subtle">
+          <span class="px-2 py-0.5 rounded-full bg-brand-500/20 text-brand-400 font-semibold font-mono text-[10px]">NEW</span>
+          <span>StockSense Engine 3.0 Real-time Sentiment AI</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.12]">
+          Trade with <span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">Clarity</span>.<br class="hidden sm:inline"> Backed by Real-Time AI.
+        </h1>
+
+        <!-- Subheading -->
+        <p class="mt-6 text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          Deep-learning market sentiment, real-time indicators, and algorithmic signals synthesized into institutional-grade trade convictions.
+        </p>
+
+        <!-- CTA cluster -->
+        <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <a href="#analyzer" class="px-7 py-3.5 rounded-xl font-semibold bg-brand-500 hover:bg-brand-400 text-dark-950 flex items-center gap-2 shadow-xl shadow-brand-500/20 transition-all font-mono">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>Test Live Terminal</span>
+          </a>
+          <button onclick="copyDomainShare()" id="shareBtn" class="px-6 py-3.5 rounded-xl font-semibold bg-dark-850 hover:bg-dark-800 text-slate-200 border border-white/10 flex items-center gap-2 transition-all">
+            <i data-lucide="copy" class="w-4 h-4 text-brand-400"></i>
+            <span id="shareText">Share Deployment URL</span>
+          </button>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-6 border-t border-white/5">
+          <div class="p-3">
+            <p class="text-2xl sm:text-3xl font-bold font-mono text-white tracking-tight">99.8%</p>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Feed Accuracy</p>
+          </div>
+          <div class="p-3">
+            <p class="text-2xl sm:text-3xl font-bold font-mono text-brand-400 tracking-tight">&lt; 14ms</p>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Latency Stream</p>
+          </div>
+          <div class="p-3">
+            <p class="text-2xl sm:text-3xl font-bold font-mono text-white tracking-tight">12,000+</p>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Tracked Symbols</p>
+          </div>
+          <div class="p-3">
+            <p class="text-2xl sm:text-3xl font-bold font-mono text-emerald-400 tracking-tight">88.4%</p>
+            <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Signal Precision</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="analyzer" class="py-12 bg-dark-950 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Terminal Header & Symbol Selector -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between pb-6 gap-4 border-b border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+              <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">Live Intelligence Workstation</h2>
+            </div>
+            <p class="text-sm text-slate-400 mt-1">Simulated real-time streaming market buffer with automated neural indicators</p>
+          </div>
+
+          <!-- Quick Select Buttons -->
+          <div class="flex flex-wrap items-center gap-2" id="ticker-buttons">
+            <button onclick="selectTicker('NVDA')" class="ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-brand-500 text-dark-950 font-bold" data-symbol="NVDA">NVDA</button>
+            <button onclick="selectTicker('AAPL')" class="ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-dark-800 text-slate-300 hover:bg-dark-700" data-symbol="AAPL">AAPL</button>
+            <button onclick="selectTicker('TSLA')" class="ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-dark-800 text-slate-300 hover:bg-dark-700" data-symbol="TSLA">TSLA</button>
+            <button onclick="selectTicker('MSFT')" class="ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-dark-800 text-slate-300 hover:bg-dark-700" data-symbol="MSFT">MSFT</button>
+            <button onclick="selectTicker('BTC')" class="ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-dark-800 text-slate-300 hover:bg-dark-700" data-symbol="BTC">BTC/USD</button>
+            
+            <!-- Custom Search Box -->
+            <div class="relative ml-auto sm:ml-2">
+              <input type="text" id="customSearch" placeholder="Search Symbol..." class="w-36 sm:w-44 bg-dark-900 border border-white/10 text-xs rounded-lg px-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500 font-mono uppercase" onkeydown="handleSearchKey(event)">
+              <button onclick="executeCustomSearch()" class="absolute right-2 top-2 text-slate-400 hover:text-white">
+                <i data-lucide="search" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal Body Grid -->
+        <div class="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Left Column: Interactive Canvas Chart (8 cols) -->
+          <div class="lg:col-span-8 glass-card rounded-2xl p-5 border border-white/10 flex flex-col justify-between shadow-2xl relative overflow-hidden">
+            <!-- Asset Banner -->
+            <div class="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-white/5">
+              <div>
+                <div class="flex items-center gap-3">
+                  <h3 id="displaySymbol" class="text-2xl font-bold font-mono text-white">NVDA</h3>
+                  <span id="displayCompany" class="text-sm text-slate-400">NVIDIA Corporation</span>
+                  <span id="exchangeTag" class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-mono border border-slate-700">NASDAQ</span>
+                </div>
+                <div class="flex items-baseline gap-3 mt-1.5">
+                  <span id="displayPrice" class="text-3xl font-extrabold font-mono text-white">$128.45</span>
+                  <span id="displayChange" class="text-sm font-semibold font-mono text-brand-400 flex items-center">
+                    <i data-lucide="trending-up" class="w-4 h-4 mr-1"></i> +$4.25 (+3.42%)
+                  </span>
+                  <span class="text-xs text-slate-500 font-mono hidden sm:inline">VOL: 48.2M</span>
+                </div>
+              </div>
+
+              <!-- Timeframe Filters -->
+              <div class="flex items-center space-x-1 bg-dark-900/90 p-1 rounded-xl border border-white/5 text-xs font-mono">
+                <button onclick="setTimeframe('1D')" class="tf-btn px-2.5 py-1 rounded-lg bg-brand-500 text-dark-950 font-bold" data-tf="1D">1D</button>
+                <button onclick="setTimeframe('1W')" class="tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-tf="1W">1W</button>
+                <button onclick="setTimeframe('1M')" class="tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-tf="1M">1M</button>
+                <button onclick="setTimeframe('1Y')" class="tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white" data-tf="1Y">1Y</button>
+              </div>
+            </div>
+
+            <!-- Canvas Area for Custom Interactive High-DPI Chart -->
+            <div class="relative w-full h-72 sm:h-80 my-3 select-none" id="canvas-container">
+              <canvas id="marketChart" class="w-full h-full block rounded-lg cursor-crosshair"></canvas>
+              <!-- Chart Overlay Info Tooltip -->
+              <div id="chartTooltip" class="absolute pointer-events-none hidden bg-dark-900/90 border border-brand-500/40 text-xs px-2.5 py-1.5 rounded-lg shadow-xl font-mono text-slate-200"></div>
+            </div>
+
+            <!-- Bottom Chart Indicator Bar -->
+            <div class="pt-3 border-t border-white/5 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+              <div class="bg-dark-900/50 p-2.5 rounded-xl border border-white/5">
+                <span class="text-slate-400 text-[11px] block">RSI (14)</span>
+                <span id="indicatorRSI" class="font-bold text-brand-400 text-sm">62.8 <span class="text-[10px] text-slate-400 font-normal">(Bullish)</span></span>
+              </div>
+              <div class="bg-dark-900/50 p-2.5 rounded-xl border border-white/5">
+                <span class="text-slate-400 text-[11px] block">MACD Signal</span>
+                <span id="indicatorMACD" class="font-bold text-brand-400 text-sm">+2.18 <span class="text-[10px] text-brand-500 font-normal">Cross ▲</span></span>
+              </div>
+              <div class="bg-dark-900/50 p-2.5 rounded-xl border border-white/5">
+                <span class="text-slate-400 text-[11px] block">200-Day EMA</span>
+                <span id="indicatorEMA" class="font-bold text-slate-200 text-sm">$118.20</span>
+              </div>
+              <div class="bg-dark-900/50 p-2.5 rounded-xl border border-white/5">
+                <span class="text-slate-400 text-[11px] block">24h Volatility</span>
+                <span id="indicatorVol" class="font-bold text-amber-400 text-sm">2.41% <span class="text-[10px] text-slate-400 font-normal">Mod</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- AI Sentiment Gauge Card -->
+            <div id="sentiment" class="glass-card rounded-2xl p-5 border border-white/10 shadow-xl">
+              <div class="flex items-center justify-between pb-3 border-b border-white/5">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="cpu" class="w-4 h-4 text-brand-400"></i>
+                  <h4 class="font-bold text-white text-sm">Neural Sentiment Index</h4>
+                </div>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/30 font-mono">LIVE AI</span>
+              </div>
+
+              <div class="my-4 text-center">
+                <!-- Circular Score Gauge representation -->
+                <div class="relative inline-flex items-center justify-center">
+                  <svg class="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="52" stroke="currentColor" stroke-width="8" class="text-dark-800" fill="transparent"/>
+                    <circle id="sentimentCircle" cx="64" cy="64" r="52" stroke="currentColor" stroke-width="8" class="text-brand-500 transition-all duration-1000 ease-out" stroke-dasharray="326.7" stroke-dashoffset="65" stroke-linecap="round" fill="transparent"/>
+                  </svg>
+                  <div class="absolute flex flex-col items-center justify-center">
+                    <span id="sentimentValue" class="text-3xl font-extrabold font-mono text-white">82</span>
+                    <span class="text-[10px] uppercase font-mono text-slate-400 font-semibold tracking-wider">/ 100</span>
+                  </div>
+                </div>
+                <div class="mt-2">
+                  <span id="sentimentBadge" class="inline-block px-3 py-1 rounded-full text-xs font-bold font-mono bg-brand-500/20 text-brand-300 border border-brand-500/40">
+                    STRONG BUY • ACCUMULATION
+                  </span>
+                </div>
+              </div>
+
+              <!-- Sentiment Sources Breakdown -->
+              <div class="space-y-2.5 text-xs border-t border-white/5 pt-3">
+                <div>
+                  <div class="flex justify-between text-slate-400 mb-1">
+                    <span>News & Press Synthesis</span>
+                    <span id="newsScore" class="font-mono text-brand-400">88% Bullish</span>
+                  </div>
+                  <div class="w-full bg-dark-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="newsBar" class="bg-brand-500 h-full rounded-full transition-all duration-700" style="width: 88%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-slate-400 mb-1">
+                    <span>Options Flow & Dark Pool</span>
+                    <span id="flowScore" class="font-mono text-brand-400">79% Calls</span>
+                  </div>
+                  <div class="w-full bg-dark-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="flowBar" class="bg-brand-500 h-full rounded-full transition-all duration-700" style="width: 79%"></div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between text-slate-400 mb-1">
+                    <span>Social Media Velocity</span>
+                    <span id="socialScore" class="font-mono text-amber-400">65% Neutral/Up</span>
+                  </div>
+                  <div class="w-full bg-dark-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="socialBar" class="bg-amber-400 h-full rounded-full transition-all duration-700" style="width: 65%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- AI Summary Synthesizer Card -->
+            <div class="glass-card rounded-2xl p-5 border border-white/10 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 mb-2">
+                  <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
+                  <h4 class="font-bold text-white text-sm">StockSense Trade Thesis</h4>
+                </div>
+                <p id="aiSummaryText" class="text-xs text-slate-300 leading-relaxed font-sans">
+                  NVIDIA continues sustained breakout momentum above the $125 resistance channel. Neural weights indicate heightened institutional block purchases alongside semiconductor supplier volume surge. Technical stop-loss recommended near $121.80.
+                </p>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs">
+                <span class="text-slate-400 font-mono">Conviction Score</span>
+                <span id="convictionRate" class="font-mono font-bold text-emerald-400">A+ (High Precision)</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="py-20 bg-dark-900/60 border-t border-b border-white/5 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-brand-400 text-xs font-mono uppercase tracking-widest font-bold">Engineered For Modern Traders</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight">The StockSense Architecture</h2>
+          <p class="text-slate-400 text-sm sm:text-base mt-3">From algorithmic pattern detection to live cross-exchange correlation, leverage tools that turn raw noise into quantifiable edge.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Feature 1 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 text-brand-400">
+              <i data-lucide="activity" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Sub-Second Market Streaming</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Direct ingestion sockets provide microsecond updates across equity, forex, and cryptocurrency pairs without browser overhead.
+            </p>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-5 text-emerald-400">
+              <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Multimodal AI Sentiment</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Large language models parse SEC filings, financial news feeds, and earnings call transcripts in seconds to gauge true macro shifts.
+            </p>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center mb-5 text-teal-400">
+              <i data-lucide="shield-check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Dynamic Risk Scoring</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Calculate automated Value at Risk (VaR), portfolio beta adjustments, and trailing volatility brackets for each position.
+            </p>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-5 text-cyan-400">
+              <i data-lucide="layers" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Options Orderflow & Dark Pools</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Unmask large block institutional trades, high-volume call sweeps, and put/call sentiment shifts before public headlines break.
+            </p>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-5 text-indigo-400">
+              <i data-lucide="bell-ring" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Smart Webhook Signals</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Seamlessly dispatch trigger alerts to Telegram, Discord, or automated execution bots using our low-latency webhook system.
+            </p>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="glass-card glass-card-hover rounded-2xl p-6 border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center mb-5 text-brand-400">
+              <i data-lucide="code-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Developer Friendly APIs</h3>
+            <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+              Comprehensive REST & WebSocket documentation crafted by 1CodeVerse for easy quant model integrations and backtesting pipelines.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-dark-950 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-brand-400 text-xs font-mono uppercase tracking-widest font-bold">Transparent Tiering</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 tracking-tight">Institutional Power. Clear Pricing.</h2>
+          <p class="text-slate-400 text-sm mt-3">Start with our free open tier or supercharge your strategy with full AI synthesis.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+          
+          <!-- Free Tier -->
+          <div class="glass-card rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white">Starter Trader</h3>
+              <p class="text-xs text-slate-400 mt-1">For casual market tracking and basic charts</p>
+              <div class="my-6">
+                <span class="text-4xl font-extrabold font-mono text-white">$0</span>
+                <span class="text-xs text-slate-400">/ forever free</span>
+              </div>
+              <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Standard 15m Delayed Quotes</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> 10 Technical Indicators</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Daily AI Sentiment Digest</li>
+                <li class="flex items-center gap-2 text-slate-500"><i data-lucide="x" class="w-4 h-4"></i> Dark Pool & Flow Feeds</li>
+              </ul>
+            </div>
+            <button onclick="scrollToAnalyzer()" class="mt-8 w-full py-3 rounded-xl border border-white/10 hover:border-brand-500 font-mono text-xs font-semibold text-slate-200 transition-colors">
+              Get Started
+            </button>
+          </div>
+
+          <!-- Pro Tier (Highlighted) -->
+          <div class="glass-card rounded-2xl p-6 sm:p-8 border-2 border-brand-500 shadow-2xl relative flex flex-col justify-between neon-glow bg-dark-900/90">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-500 text-dark-950 text-[10px] font-mono font-extrabold uppercase px-3 py-1 rounded-full shadow-lg">
+              Most Popular Choice
+            </div>
+            <div>
+              <h3 class="text-lg font-bold text-white">StockSense Pro</h3>
+              <p class="text-xs text-slate-400 mt-1">For active day traders & swing strategists</p>
+              <div class="my-6">
+                <span class="text-4xl font-extrabold font-mono text-brand-400">$39</span>
+                <span class="text-xs text-slate-400">/ month</span>
+              </div>
+              <ul class="space-y-3 text-xs sm:text-sm text-slate-200">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Real-Time Microsecond Websockets</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Full AI Trade Thesis & Signals</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Options Orderflow & Dark Pool</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Webhook & Telegram Alerts</li>
+              </ul>
+            </div>
+            <button onclick="scrollToAnalyzer()" class="mt-8 w-full py-3 rounded-xl bg-brand-500 hover:bg-brand-400 text-dark-950 font-mono text-xs font-bold transition-all shadow-md">
+              Upgrade to Pro
+            </button>
+          </div>
+
+          <!-- Enterprise Tier -->
+          <div class="glass-card rounded-2xl p-6 sm:p-8 border border-white/10 flex flex-col justify-between">
+            <div>
+              <h3 class="text-lg font-bold text-white">Quant Enterprise</h3>
+              <p class="text-xs text-slate-400 mt-1">For proprietary desks and hedge funds</p>
+              <div class="my-6">
+                <span class="text-4xl font-extrabold font-mono text-white">$199</span>
+                <span class="text-xs text-slate-400">/ month</span>
+              </div>
+              <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Direct Multi-Exchange FIX Sockets</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Dedicated Neural Sentiment Cluster</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> Unlimited Backtesting API Calls</li>
+                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-400"></i> 24/7 SLA Engineering Support</li>
+              </ul>
+            </div>
+            <button onclick="scrollToAnalyzer()" class="mt-8 w-full py-3 rounded-xl border border-white/10 hover:border-brand-500 font-mono text-xs font-semibold text-slate-200 transition-colors">
+              Contact Desk
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="py-16 bg-gradient-to-b from-dark-950 to-dark-900 border-t border-white/5">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div class="p-8 sm:p-12 rounded-3xl glass-card border border-brand-500/20 relative overflow-hidden">
+          <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+          <h2 class="text-2xl sm:text-4xl font-bold text-white tracking-tight">Deploy StockSense to Your Ecosystem</h2>
+          <p class="text-slate-400 text-sm sm:text-base mt-3 max-w-xl mx-auto">
+            Ready to integrate into your workflow? Fork the official 1CodeVerse repository or link your broker credentials in seconds.
+          </p>
+          <div class="mt-8 flex flex-wrap justify-center gap-4">
+            <a href="https://github.com/1CodeVerse" target="_blank" class="px-6 py-3 rounded-xl bg-white text-dark-950 font-bold font-mono text-xs flex items-center gap-2 hover:bg-slate-200 transition-colors">
+              <i data-lucide="github" class="w-4 h-4"></i>
+              <span>Star on GitHub</span>
+            </a>
+            <button onclick="scrollToAnalyzer()" class="px-6 py-3 rounded-xl bg-brand-500 text-dark-950 font-bold font-mono text-xs flex items-center gap-2 hover:bg-brand-400 transition-colors">
+              <i data-lucide="play" class="w-4 h-4"></i>
+              <span>Run Interactive Demo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-dark-950 border-t border-white/5 text-slate-400 text-xs py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <!-- Brand column -->
+      <div class="space-y-3">
+        <div class="flex items-center gap-2">
+          <div class="h-6 w-6 rounded bg-brand-500 flex items-center justify-center text-dark-950 font-bold">
+            <i data-lucide="trending-up" class="w-4 h-4"></i>
+          </div>
+          <span class="text-white font-bold text-base tracking-tight">StockSense</span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Autonomous financial analytics, real-time indicators, and algorithmic sentiment modeling developed by 1CodeVerse.
+        </p>
+        <div class="pt-1">
+          <span class="font-mono text-[11px] text-brand-400 bg-brand-500/10 px-2 py-0.5 rounded border border-brand-500/20">stocksense-1codeverse.ai.studio</span>
+        </div>
+      </div>
+
+      <!-- Navigation links -->
+      <div>
+        <h4 class="text-white font-semibold mb-3 font-mono uppercase text-[11px] tracking-wider">Platform</h4>
+        <ul class="space-y-2">
+          <li><a href="#analyzer" class="hover:text-brand-400 transition-colors">Live Workstation</a></li>
+          <li><a href="#sentiment" class="hover:text-brand-400 transition-colors">Sentiment Engine</a></li>
+          <li><a href="#features" class="hover:text-brand-400 transition-colors">Indicator Matrix</a></li>
+          <li><a href="#pricing" class="hover:text-brand-400 transition-colors">Pricing Structure</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div>
+        <h4 class="text-white font-semibold mb-3 font-mono uppercase text-[11px] tracking-wider">Resources</h4>
+        <ul class="space-y-2">
+          <li><a href="https://github.com/1CodeVerse" target="_blank" class="hover:text-brand-400 transition-colors">GitHub Repository</a></li>
+          <li><a href="#" class="hover:text-brand-400 transition-colors">REST API Spec</a></li>
+          <li><a href="#" class="hover:text-brand-400 transition-colors">WebSocket Docs</a></li>
+          <li><a href="#" class="hover:text-brand-400 transition-colors">Risk Disclaimer</a></li>
+        </ul>
+      </div>
+
+      <!-- Status & Compliance -->
+      <div>
+        <h4 class="text-white font-semibold mb-3 font-mono uppercase text-[11px] tracking-wider">System Status</h4>
+        <div class="flex items-center gap-2 text-emerald-400 font-mono text-[11px] mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>All Nodes Operational (99.99%)</span>
+        </div>
+        <p class="text-[11px] text-slate-500 leading-normal">
+          Disclaimer: Informational tool only. Financial investments entail risk of loss. Past performance does not guarantee future results.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Copyright -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10 pt-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
+      <p>© <span id="currentYear"></span> StockSense by 1CodeVerse. All rights reserved.</p>
+      <div class="flex gap-4 mt-3 sm:mt-0">
+        <a href="#" class="hover:text-slate-300">Privacy Policy</a>
+        <a href="#" class="hover:text-slate-300">Terms of Service</a>
+        <a href="https://github.com/1CodeVerse" class="hover:text-brand-400">1CodeVerse</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast Box (Replaces native alerts) -->
+  <div id="toastBox" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-dark-900 border border-brand-500/50 text-slate-200 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 font-mono text-xs">
+    <i data-lucide="info" class="w-4 h-4 text-brand-400"></i>
+    <span id="toastMessage">Domain copied to clipboard!</span>
+  </div>
+
+  <script>
+    // Initialize current year
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+    // Mock Database for StockSense Symbols
+    const stockDatabase = {
+      'NVDA': {
+        name: 'NVIDIA Corporation',
+        exchange: 'NASDAQ',
+        price: 128.45,
+        change: '+4.25',
+        changePercent: '+3.42%',
+        isPositive: true,
+        volume: '54.2M',
+        rsi: '64.2 (Bullish)',
+        macd: '+2.18 Cross ▲',
+        ema: '$118.20',
+        volatility: '2.41% Mod',
+        sentiment: 84,
+        sentimentBadge: 'STRONG BUY • ACCUMULATION',
+        newsScore: 88,
+        flowScore: 79,
+        socialScore: 68,
+        conviction: 'A+ (High Precision)',
+        summary: 'NVIDIA maintains strong demand signals from datacenter hyperscalers. Technical indicators show solid multi-week support baseline above $122.00.',
+        basePoints: [118, 120, 119, 122, 121, 124, 123, 126, 125, 128.45]
+      },
+      'AAPL': {
+        name: 'Apple Inc.',
+        exchange: 'NASDAQ',
+        price: 224.23,
+        change: '+2.55',
+        changePercent: '+1.15%',
+        isPositive: true,
+        volume: '42.8M',
+        rsi: '58.4 (Neutral)',
+        macd: '+0.95 Cross ▲',
+        ema: '$218.40',
+        volatility: '1.20% Low',
+        sentiment: 72,
+        sentimentBadge: 'MODERATE BUY • STABLE',
+        newsScore: 74,
+        flowScore: 70,
+        socialScore: 72,
+        conviction: 'B+ (Steady Momentum)',
+        summary: 'Apple hardware replacement cycles and services growth yield consistent institutional inflow. Support identified at $220.00 floor.',
+        basePoints: [219, 220, 221, 220.5, 222, 221.8, 223, 222.5, 223.8, 224.23]
+      },
+      'TSLA': {
+        name: 'Tesla, Inc.',
+        exchange: 'NASDAQ',
+        price: 242.10,
+        change: '-4.48',
+        changePercent: '-1.82%',
+        isPositive: false,
+        volume: '68.5M',
+        rsi: '44.1 (Oversold Range)',
+        macd: '-1.12 Neutral ▼',
+        ema: '$246.80',
+        volatility: '3.85% High',
+        sentiment: 48,
+        sentimentBadge: 'NEUTRAL / CAUTION',
+        newsScore: 52,
+        flowScore: 46,
+        socialScore: 50,
+        conviction: 'C+ (Elevated Beta)',
+        summary: 'Tesla experiences temporary compression around the 50-day moving average. Margin guidance watch remains primary catalyst for reversal.',
+        basePoints: [252, 250, 248, 249, 246, 247, 244, 245, 243, 242.10]
+      },
+      'MSFT': {
+        name: 'Microsoft Corp.',
+        exchange: 'NASDAQ',
+        price: 448.90,
+        change: '+3.88',
+        changePercent: '+0.87%',
+        isPositive: true,
+        volume: '22.1M',
+        rsi: '61.0 (Bullish)',
+        macd: '+1.45 Strong ▲',
+        ema: '$440.10',
+        volatility: '1.45% Low',
+        sentiment: 78,
+        sentimentBadge: 'ACCUMULATE • LONG TERM',
+        newsScore: 82,
+        flowScore: 76,
+        socialScore: 75,
+        conviction: 'A (High Stability)',
+        summary: 'Cloud expansion and enterprise copilot deployments fuel recurring revenue multipliers. Long-term consolidation channel unbroken.',
+        basePoints: [442, 443, 441.5, 444, 445, 444.8, 446.5, 447, 448, 448.90]
+      },
+      'BTC': {
+        name: 'Bitcoin / US Dollar',
+        exchange: 'CRYPTO',
+        price: 64820.00,
+        change: '+2625.00',
+        changePercent: '+4.21%',
+        isPositive: true,
+        volume: '$31.4B',
+        rsi: '68.5 (Bullish)',
+        macd: '+310.4 Expansion ▲',
+        ema: '$61200.00',
+        volatility: '4.60% High',
+        sentiment: 89,
+        sentimentBadge: 'EXTREME GREED • SURGE',
+        newsScore: 91,
+        flowScore: 87,
+        socialScore: 92,
+        conviction: 'A (Strong Momentum)',
+        summary: 'ETF inflows and on-chain liquidity velocity illustrate institutional absorption. Overhead hurdle spotted near $66,500.',
+        basePoints: [61500, 62000, 61800, 62900, 63100, 62700, 63800, 64200, 64400, 64820]
+      }
+    };
+
+    // State Variables
+    let currentTicker = 'NVDA';
+    let currentTimeframe = '1D';
+    let chartAnimationProgress = 0;
+    let chartIntervalId = null;
+    let dataPoints = [];
+
+    const canvas = document.getElementById('marketChart');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('chartTooltip');
+
+    function resizeCanvas() {
+      const container = document.getElementById('canvas-container');
+      const dpr = window.devicePixelRatio || 1;
+      const rect = container.getBoundingClientRect();
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      renderChart();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+
+    function generateChartPoints(symbol, tf) {
+      const stock = stockDatabase[symbol] || stockDatabase['NVDA'];
+      const base = [...stock.basePoints];
+      let factor = 1;
+      let count = 24;
+
+      if (tf === '1D') count = 24;
+      if (tf === '1W') count = 35;
+      if (tf === '1M') count = 45;
+      if (tf === '1Y') count = 55;
+
+      const points = [];
+      let lastVal = base[0];
+      const stepChange = (stock.price - lastVal) / count;
+
+      for (let i = 0; i < count; i++) {
+        const noise = (Math.random() - 0.48) * (stock.price * 0.015);
+        lastVal += stepChange + noise;
+        points.push(lastVal);
+      }
+      points[points.length - 1] = stock.price; // ensure accurate final
+      return points;
+    }
+
+    function renderChart() {
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+
+      ctx.clearRect(0, 0, width, height);
+
+      if (!dataPoints || dataPoints.length < 2) return;
+
+      const stock = stockDatabase[currentTicker] || stockDatabase['NVDA'];
+      const isPositive = stock.isPositive;
+
+      const minVal = Math.min(...dataPoints) * 0.998;
+      const maxVal = Math.max(...dataPoints) * 1.002;
+      const range = maxVal - minVal || 1;
+
+      // Coordinate converter helper
+      const getX = (index) => (index / (dataPoints.length - 1)) * (width - 40) + 20;
+      const getY = (val) => height - 30 - ((val - minVal) / range) * (height - 60);
+
+      // Draw subtle grid lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      for (let i = 1; i <= 4; i++) {
+        const y = (height / 5) * i;
+        ctx.moveTo(20, y);
+        ctx.lineTo(width - 20, y);
+      }
+      ctx.stroke();
+
+      // Draw Gradient Area fill under curve
+      const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      if (isPositive) {
+        gradient.addColorStop(0, 'rgba(16, 185, 129, 0.28)');
+        gradient.addColorStop(1, 'rgba(16, 185, 129, 0.00)');
+      } else {
+        gradient.addColorStop(0, 'rgba(244, 63, 94, 0.28)');
+        gradient.addColorStop(1, 'rgba(244, 63, 94, 0.00)');
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(getX(0), getY(dataPoints[0]));
+      for (let i = 1; i < dataPoints.length; i++) {
+        // Smooth bezier interpolation
+        const xc = (getX(i) + getX(i - 1)) / 2;
+        const yc = (getY(dataPoints[i]) + getY(dataPoints[i - 1])) / 2;
+        ctx.quadraticCurveTo(getX(i - 1), getY(dataPoints[i - 1]), xc, yc);
+      }
+      ctx.lineTo(getX(dataPoints.length - 1), getY(dataPoints[dataPoints.length - 1]));
+      ctx.lineTo(getX(dataPoints.length - 1), height - 10);
+      ctx.lineTo(getX(0), height - 10);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Stroke Line
+      ctx.beginPath();
+      ctx.strokeStyle = isPositive ? '#10b981' : '#f43f5e';
+      ctx.lineWidth = 2.5;
+      ctx.moveTo(getX(0), getY(dataPoints[0]));
+      for (let i = 1; i < dataPoints.length; i++) {
+        const xc = (getX(i) + getX(i - 1)) / 2;
+        const yc = (getY(dataPoints[i]) + getY(dataPoints[i - 1])) / 2;
+        ctx.quadraticCurveTo(getX(i - 1), getY(dataPoints[i - 1]), xc, yc);
+      }
+      ctx.lineTo(getX(dataPoints.length - 1), getY(dataPoints[dataPoints.length - 1]));
+      ctx.stroke();
+
+      // Pulsing Current Point
+      const lastX = getX(dataPoints.length - 1);
+      const lastY = getY(dataPoints[dataPoints.length - 1]);
+      
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = isPositive ? '#10b981' : '#f43f5e';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, 10, 0, Math.PI * 2);
+      ctx.strokeStyle = isPositive ? 'rgba(16, 185, 129, 0.4)' : 'rgba(244, 63, 94, 0.4)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const width = rect.width;
+      const stock = stockDatabase[currentTicker] || stockDatabase['NVDA'];
+
+      const index = Math.round((x - 20) / (width - 40) * (dataPoints.length - 1));
+      if (index >= 0 && index < dataPoints.length) {
+        const priceVal = dataPoints[index];
+        tooltip.style.left = `${Math.min(width - 110, Math.max(10, x - 50))}px`;
+        tooltip.style.top = `20px`;
+        tooltip.classList.remove('hidden');
+        tooltip.innerHTML = `<span class="text-slate-400">PRICE:</span> <strong class="text-white">$${priceVal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</strong>`;
+      }
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      tooltip.classList.add('hidden');
+    });
+
+    function selectTicker(symbol) {
+      if (!stockDatabase[symbol]) return;
+      currentTicker = symbol;
+
+      // Update Ticker Buttons styling
+      document.querySelectorAll('.ticker-btn').forEach(btn => {
+        if (btn.getAttribute('data-symbol') === symbol) {
+          btn.className = 'ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-brand-500 text-dark-950 font-bold';
+        } else {
+          btn.className = 'ticker-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all bg-dark-800 text-slate-300 hover:bg-dark-700';
+        }
+      });
+
+      const data = stockDatabase[symbol];
+      
+      // Update DOM Text Elements
+      document.getElementById('displaySymbol').textContent = symbol;
+      document.getElementById('displayCompany').textContent = data.name;
+      document.getElementById('exchangeTag').textContent = data.exchange;
+      document.getElementById('displayPrice').textContent = (symbol === 'BTC' ? '$' : '$') + data.price.toLocaleString();
+      
+      const changeEl = document.getElementById('displayChange');
+      if (data.isPositive) {
+        changeEl.className = 'text-sm font-semibold font-mono text-brand-400 flex items-center';
+        changeEl.innerHTML = `<i data-lucide="trending-up" class="w-4 h-4 mr-1"></i> ${data.change} (${data.changePercent})`;
+      } else {
+        changeEl.className = 'text-sm font-semibold font-mono text-rose-400 flex items-center';
+        changeEl.innerHTML = `<i data-lucide="trending-down" class="w-4 h-4 mr-1"></i> ${data.change} (${data.changePercent})`;
+      }
+
+      // Update Indicators
+      document.getElementById('indicatorRSI').textContent = data.rsi;
+      document.getElementById('indicatorMACD').textContent = data.macd;
+      document.getElementById('indicatorEMA').textContent = data.ema;
+      document.getElementById('indicatorVol').textContent = data.volatility;
+
+      // Update AI Sentiment Gauge
+      const score = data.sentiment;
+      document.getElementById('sentimentValue').textContent = score;
+      document.getElementById('sentimentBadge').textContent = data.sentimentBadge;
+      
+      // Circle stroke dash computation (Circumference ~ 326.7)
+      const circle = document.getElementById('sentimentCircle');
+      const offset = 326.7 - (326.7 * (score / 100));
+      circle.style.strokeDashoffset = offset;
+      circle.style.stroke = score > 60 ? '#10b981' : (score > 45 ? '#f59e0b' : '#f43f5e');
+
+      // Bars & Summary
+      document.getElementById('newsScore').textContent = `${data.newsScore}% Bullish`;
+      document.getElementById('newsBar').style.width = `${data.newsScore}%`;
+      document.getElementById('flowScore').textContent = `${data.flowScore}% Inflow`;
+      document.getElementById('flowBar').style.width = `${data.flowScore}%`;
+      document.getElementById('socialScore').textContent = `${data.socialScore}% Score`;
+      document.getElementById('socialBar').style.width = `${data.socialScore}%`;
+      document.getElementById('aiSummaryText').textContent = data.summary;
+      document.getElementById('convictionRate').textContent = data.conviction;
+
+      // Refresh Chart Points
+      dataPoints = generateChartPoints(symbol, currentTimeframe);
+      renderChart();
+      lucide.createIcons();
+    }
+
+    function setTimeframe(tf) {
+      currentTimeframe = tf;
+      document.querySelectorAll('.tf-btn').forEach(btn => {
+        if (btn.getAttribute('data-tf') === tf) {
+          btn.className = 'tf-btn px-2.5 py-1 rounded-lg bg-brand-500 text-dark-950 font-bold';
+        } else {
+          btn.className = 'tf-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white';
+        }
+      });
+      dataPoints = generateChartPoints(currentTicker, tf);
+      renderChart();
+    }
+
+    // Custom Search Functionality
+    function executeCustomSearch() {
+      const input = document.getElementById('customSearch');
+      const term = input.value.trim().toUpperCase();
+      if (!term) return;
+
+      if (stockDatabase[term]) {
+        selectTicker(term);
+        showToast(`Loaded analytics for ${term}`);
+      } else {
+        // Dynamically add symbol on the fly
+        stockDatabase[term] = {
+          name: `${term} Custom Asset`,
+          exchange: 'GLOBAL',
+          price: (Math.random() * 250 + 50).toFixed(2),
+          change: '+3.10',
+          changePercent: '+1.75%',
+          isPositive: true,
+          volume: '18.4M',
+          rsi: '55.2 (Neutral)',
+          macd: '+0.45 Neutral',
+          ema: '$140.00',
+          volatility: '2.1% Normal',
+          sentiment: Math.floor(Math.random() * 40 + 55),
+          sentimentBadge: 'ACTIVE ACCUMULATION',
+          newsScore: 78,
+          flowScore: 68,
+          socialScore: 64,
+          conviction: 'B+ (Calculated)',
+          summary: `Dynamic algorithmic profile established for ${term}. Pattern indicators display stabilized liquidity distribution across orders.`,
+          basePoints: [140, 142, 141, 143, 145, 144, 147, 149]
+        };
+        selectTicker(term);
+        showToast(`Dynamic data generated for ${term}`);
+      }
+      input.value = '';
+    }
+
+    function handleSearchKey(e) {
+      if (e.key === 'Enter') {
+        executeCustomSearch();
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastBox');
+      const msgEl = document.getElementById('toastMessage');
+      msgEl.textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+
+    function copyDomainShare() {
+      const domain = "https://stocksense-1codeverse.ai.studio/";
+      const tempInput = document.createElement("input");
+      tempInput.value = domain;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+
+      showToast(`Copied domain: ${domain}`);
+    }
+
+    function scrollToAnalyzer() {
+      document.getElementById('analyzer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', toggleMenu);
+
+    window.onload = function() {
+      lucide.createIcons();
+      resizeCanvas();
+      selectTicker('NVDA');
+
+      // Periodic subtle chart price pulse simulation
+      setInterval(() => {
+        if (dataPoints.length > 0) {
+          const lastIdx = dataPoints.length - 1;
+          const fluctuation = (Math.random() - 0.49) * 0.4;
+          dataPoints[lastIdx] = Math.max(1, dataPoints[lastIdx] + fluctuation);
+          renderChart();
+        }
+      }, 2500);
+    };
+  </script>
+</body>
+</html>
