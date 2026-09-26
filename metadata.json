@@ -1,0 +1,8 @@
+{
+  "name": "StockSense",
+  "description": "StockSense is an intelligent inventory management and decision support system with real-time tracking, predictive stockout detection, multi-warehouse intelligence, and automated recommendations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
